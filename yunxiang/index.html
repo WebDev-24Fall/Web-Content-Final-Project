@@ -54,10 +54,10 @@
   <header>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
       <div class="container d-flex justify-content-start">
-        <a class="navbar-brand" href="./chart1.html">Yunxiang Gu - Final Project</a>
+        <a class="navbar-brand" href="./">Yunxiang Gu - Final Project</a>
         <ul class="navbar-nav d-flex flex-row gap-3">
           <li class="nav-item active">
-            <a class="nav-link" href="./chart1.html">Chart 1</a>
+            <a class="nav-link" href="./">Chart 1</a>
           </li>
           <li class="nav-item active">
             <a class="nav-link" href="./chart2.html">Chart 2</a>
@@ -73,42 +73,37 @@
   <div id="tooltip" class="tooltip"></div>
   <div class="flex-1"></div>
   <footer class="blockquote-footer text-center py-3 mb-0">Yunxiang Gu - 8904492 - Final Project</footer>
+  <script src="../lib.js"></script>
   <script>
-    // Adjust margin and height for sufficient space for the legend
-    const margin = { top: 40, right: 20, bottom: 120, left: 100 }; // Increase bottom margin
-    const width = 800 - margin.left - margin.right;
-    const height = 500 - margin.top - margin.bottom;
 
-    // Append SVG and group
-    const svg = d3.select("#chart")
-      .attr("width", width + margin.left + margin.right)
-      .attr("height", height + margin.top + margin.bottom)
-      .append("g")
-      .attr("transform", `translate(${margin.left},${margin.top})`);
+    const initialChart = (data) => {
+      // Adjust margin and height for sufficient space for the legend
+      const margin = { top: 40, right: 20, bottom: 120, left: 100 }; // Increase bottom margin
+      const width = 800 - margin.left - margin.right;
+      const height = 500 - margin.top - margin.bottom;
 
-    // Tooltip element
-    const tooltip = d3.select("#tooltip");
+      // Append SVG and group
+      const svg = d3.select("#chart")
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.top + margin.bottom)
+        .append("g")
+        .attr("transform", `translate(${margin.left},${margin.top})`);
 
-    // Track visibility of countries
-    const visibility = {};
+      // Tooltip element
+      const tooltip = d3.select("#tooltip");
 
-    // Load the data
-    d3.csv("./chart1.csv").then(data => {
-      // Parse the data
-      data.forEach(d => {
-        d.Year = +d.Year; // Convert Year to number
-        d.Population = parseFloat(d.Population.replace(/,/g, '')); // Convert Population to number
-      });
+      // Track visibility of countries
+      const visibility = {};
 
       // Extract unique countries
-      const countries = [...new Set(data.map(d => d.Country))];
+      const countries = [...new Set(data.map(d => d.country))];
 
       // Initialize visibility for each country
       countries.forEach(country => (visibility[country] = true));
 
       // Define scales
       const x0 = d3.scaleBand()
-        .domain([...new Set(data.map(d => d.Year))])
+        .domain([...new Set(data.map(d => d.year))])
         .range([0, width])
         .padding(0.2);
 
@@ -118,7 +113,7 @@
         .padding(0.05);
 
       const y = d3.scaleLinear()
-        .domain([0, d3.max(data, d => d.Population)])
+        .domain([0, d3.max(data, d => d.population)])
         .nice()
         .range([height, 0]);
 
@@ -157,7 +152,7 @@
       // Function to update visibility of individual bars
       const toggleBarVisibility = (country) => {
         const bars = svg.selectAll(".bar")
-          .filter(d => d.Country === country);
+          .filter(d => d.country === country);
 
         // If visible, hide the bars
         if (visibility[country]) {
@@ -169,8 +164,8 @@
           // If hidden, show the bars
           bars.transition()
             .duration(500)
-            .attr("y", d => y(d.Population)) // Animate to correct position
-            .attr("height", d => height - y(d.Population));
+            .attr("y", d => y(d.population)) // Animate to correct position
+            .attr("height", d => height - y(d.population));
         }
 
         visibility[country] = !visibility[country]; // Toggle visibility state
@@ -182,17 +177,17 @@
         .enter()
         .append("rect")
         .attr("class", "bar")
-        .attr("x", d => x0(d.Year) + x1(d.Country))
-        .attr("y", d => y(d.Population))
+        .attr("x", d => x0(d.year) + x1(d.country))
+        .attr("y", d => y(d.population))
         .attr("width", x1.bandwidth())
-        .attr("height", d => height - y(d.Population))
-        .attr("fill", d => color(d.Country))
+        .attr("height", d => height - y(d.population))
+        .attr("fill", d => color(d.country))
         .on("mouseover", (event, d) => {
           tooltip.style("display", "block")
             .html(`
-              <strong>Country:</strong> ${d.Country}<br>
-              <strong>Year:</strong> ${d.Year}<br>
-              <strong>Population:</strong> ${d.Population.toLocaleString()} million
+              <strong>Country:</strong> ${d.country}<br>
+              <strong>Year:</strong> ${d.year}<br>
+              <strong>Population:</strong> ${d.population.toLocaleString()} million
             `);
         })
         .on("mousemove", event => {
@@ -231,7 +226,34 @@
         .attr("y", 10)
         .text(d => d)
         .attr("class", "legend");
-    });
+    };
+
+    (async () => {
+
+      const chart1 = new Chart({
+        year: {
+          filter: ["2010", "2015", "2021", "2022"],
+          index: 2,
+        },
+        country: {
+          index: 1,
+          filter: ["China", "United States of America", "India", "Indonesia"],
+        },
+        series: {
+          index: 3,
+          filter: ["Population mid-year estimates (millions)"],
+        },
+        population: {
+          index: 4,
+        },
+      });
+
+      // Fetch data and initialize the chart
+      const data = await chart1.fetchData();
+
+      initialChart(data);
+    })();
+
   </script>
 </body>
 
