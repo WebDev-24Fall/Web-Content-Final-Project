@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>World Population Pie Chart</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <style>
+    .pie-chart {
+      width: 100%;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .tooltip {
+      position: absolute;
+      background: rgba(0, 0, 0, 0.8);
+      color: white;
+      padding: 10px;
+      border-radius: 5px;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+
+    .legend {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-top: 20px;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      margin: 5px 10px;
+      cursor: pointer;
+      transition: opacity 0.3s;
+    }
+
+    .legend-item.hidden {
+      opacity: 0.5;
+    }
+
+    .legend-color {
+      width: 15px;
+      height: 15px;
+      margin-right: 5px;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <div class="container d-flex justify-content-start">
+        <a class="navbar-brand" href="./chart1.html">Yunxiang Gu - Final Project</a>
+        <ul class="navbar-nav d-flex flex-row gap-3">
+          <li class="nav-item active">
+            <a class="nav-link" href="./chart1.html">Chart 1</a>
+          </li>
+          <li class="nav-item active">
+            <a class="nav-link" href="./chart2.html">Chart 2</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+  </header>
+  <h2 class="text-center my-3">Mid-Year Population World Pie Chart</h2>
+
+  <div class="pie-chart" id="pie-chart"></div>
+  <div class="tooltip" id="tooltip"></div>
+  <div class="legend" id="legend"></div>
+
+  <footer class="blockquote-footer text-center py-3 mt-3 mb-0">Yunxiang Gu - 8904492 - Final Project</footer>
+
+  <script>
+    d3.csv('./chart2.csv').then(data => {
+      // Data preprocessing
+      const processedData = data.map(d => ({
+        ...d,
+        Population: parseFloat(d.Population.replace(/,/g, ''))
+      }));
+
+      // Ensure each continent appears only once by aggregating population
+      const continentsData = Array.from(d3.rollup(
+        processedData,
+        v => d3.sum(v, d => d.Population),
+        d => d.Continent
+      ), ([Continent, Population]) => ({ Continent, Population }));
+
+      // Track hidden continents (initially empty)
+      const hiddenContinents = new Set();
+
+      // Color scheme
+      const colorScale = d3.scaleOrdinal()
+        .domain(continentsData.map(d => d.Continent))
+        .range(['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884D8', '#FF6384']);
+
+      const width = 600, height = 600, radius = Math.min(width, height) / 2;
+
+      const svg = d3.select('#pie-chart')
+        .append('svg')
+        .attr('width', width)
+        .attr('height', height)
+        .append('g')
+        .attr('transform', `translate(${width / 2}, ${height / 2})`);
+
+      const pie = d3.pie().value(d => d.Population).sort(null);
+
+      const arc = d3.arc().innerRadius(0).outerRadius(radius * 0.8);
+
+      const updateChart = () => {
+        // Filter data based on hidden continents
+        const visibleData = continentsData.filter(d => !hiddenContinents.has(d.Continent));
+
+        // Update pie data
+        const arcs = svg.selectAll('.arc')
+          .data(pie(visibleData), d => d.data.Continent);
+
+        // Enter new arcs
+        const newArcs = arcs.enter()
+          .append('g')
+          .attr('class', 'arc');
+
+        newArcs.append('path')
+          .attr('stroke', 'white')
+          .attr('stroke-width', 2)
+          .attr('d', arc)
+          .attr('fill', d => colorScale(d.data.Continent))
+          .on('mouseover', function (event, d) {
+            d3.select(this).attr('opacity', 0.7);
+            const tooltip = d3.select('#tooltip');
+            tooltip.transition().duration(200).style('opacity', 0.9);
+            tooltip.html(`
+                <strong>${d.data.Continent}</strong><br>
+                Population: ${d.data.Population.toLocaleString()} million<br>
+                Percentage: ${(d.data.Population / d3.sum(visibleData, d => d.Population) * 100).toFixed(1)}%
+              `).style('left', `${event.pageX + 10}px`).style('top', `${event.pageY - 28}px`);
+          })
+          .on('mouseout', function () {
+            d3.select(this).attr('opacity', 1);
+            d3.select('#tooltip').transition().duration(500).style('opacity', 0);
+          });
+
+        // Update existing arcs with transition
+        arcs.select('path')
+          .transition()
+          .duration(750)
+          .attr('d', arc)
+          .attr('fill', d => colorScale(d.data.Continent));
+
+        // Remove old arcs
+        arcs.exit().remove();
+      };
+
+      const updateLegend = () => {
+        const legend = d3.select('#legend')
+          .selectAll('.legend-item')
+          .data(continentsData, d => d.Continent);
+
+        const newLegend = legend.enter()
+          .append('div')
+          .attr('class', 'legend-item')
+          .on('click', (event, d) => {
+            if (hiddenContinents.has(d.Continent)) {
+              hiddenContinents.delete(d.Continent);
+            } else {
+              hiddenContinents.add(d.Continent);
+            }
+            updateChart();
+            updateLegend();
+          });
+
+        newLegend.append('div')
+          .attr('class', 'legend-color')
+          .style('background-color', d => colorScale(d.Continent));
+
+        newLegend.append('div')
+          .text(d => `${d.Continent} (${d.Population.toLocaleString()} million)`);
+
+        // Merge new legends with existing ones
+        legend.merge(newLegend)
+          .classed('hidden', d => hiddenContinents.has(d.Continent));
+
+        // Remove old legend items
+        legend.exit().remove();
+      };
+
+      // Initial rendering
+      updateChart();
+      updateLegend();
+    }).catch(error => console.error('Error loading data:', error));
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+    crossorigin="anonymous"></script>
+</body>
+
+</html>
