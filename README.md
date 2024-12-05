@@ -1,11 +1,15 @@
-# Final Project
+# Web Content Management Systems
 
-### Student
+PROG8761 - Fall 2024 - Section 6
 
-Abdul Mannan, Mohammed
-Gu, Yunxiang - 8904492
-Macwan, Sarah Advin
-Shaikh, Daneesh Bashir
+## Final Project
+
+### Students
+
+- Abdul Mannan, Mohammed
+- [Gu, Yunxiang](./yunxiang/)
+- [Macwan, Sarah Advin](./sarah/)
+- Shaikh, Daneesh Bashir
 
 ### Data Source
 
