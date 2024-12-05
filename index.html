@@ -5,39 +5,65 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Web Content</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      margin: 20px;
+      padding: 0;
+      background-color: #f4f4f4;
+    }
+  
+    #content {
+      background: #fff;
+      padding: 20px;
+      border-radius: 5px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+  
+    pre {
+      background: #eee;
+      padding: 10px;
+      border-radius: 5px;
+      overflow-x: auto;
+    }
+  
+    code {
+      font-family: "Courier New", Courier, monospace;
+      color: #d63384;
+    }
+  </style>
 </head>
 
 <body>
-  <dic class="container p-3 text-center">
-    <h1 class="font-bold text-3xl mb-3">Web Content Management Systems</h1>
-    <p class="text-xl mb-9">PROG8761 - Fall 2024 - Section 6</p>
-    <h2 class="font-bold text-2xl">Group Project</h2>
-    <p class="mb-3">UnData Population Statistics Data Visualization</p>
-    <h3 class="text-xl font-bold mb-3">Group Members</h3>
-    <ul class="flex flex-flow justify-center gap-3">
-      <li class="shadow p-6 hover:text-[#f87171]">
-        <a href="./yunxiang/" target="_blank" rel="noopener noreferrer">
-          Gu, Yunxiang
-        </a>
-      </li>
-      <li class="shadow p-6 hover:text-[#f87171]">
-        <a href="./sarah/" target="_blank" rel="noopener noreferrer">
-          Macwan, Sarah Advin
-        </a>
-      </li>
-      <li class="shadow p-6 hover:text-[#f87171]">
-        <a href="./mohammed/" target="_blank" rel="noopener noreferrer">
-          Abdul Mannan, Mohammed
-        </a>
-      </li>
-      <li class="shadow p-6 hover:text-[#f87171]">
-        <a href="./daneesh/" target="_blank" rel="noopener noreferrer">
-          Shaikh, Daneesh Bashir
-        </a>
-      </li>
-    </ul>
-  </dic>
+  <div id="content">Loading</div>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script>
+    // Fetch and render the README.md file
+    async function renderMarkdown() {
+      try {
+        // Fetch the markdown file
+        const response = await fetch('README.md');
+        if (!response.ok) {
+          document.getElementById('content').innerText = 'Failed to load README.md';
+          return;
+        }
+        const markdown = await response.text();
+
+        // Convert markdown to HTML
+        const html = marked.parse(markdown);
+
+        // Insert the rendered HTML into the content div
+        document.getElementById('content').innerHTML = html;
+      } catch (error) {
+        console.error('Error loading README.md:', error);
+        document.getElementById('content').innerText = 'Error rendering content';
+      }
+    }
+
+    // Call the function to render markdown
+    renderMarkdown();
+  </script>
 </body>
 
 </html>
