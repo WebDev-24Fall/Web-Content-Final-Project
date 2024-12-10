@@ -15,6 +15,10 @@ PROG8761 - Fall 2024 - Section 6
 
 [Web-Content-Final-Project](https://github.com/WebDev-24Fall/Web-Content-Final-Project)
 
+### Run Project
+
+Using HTTP-server or VS code Go live extension to run index.html in the root folder.
+
 ### Data Source
 
 The data used in this project is sourced from the [United Nations data repository](https://data.un.org/). It provides comprehensive statistics on population growth, fertility rates, life expectancy, and mortality indicators, offering a detailed examination of global demographic trends. The dataset is regularly updated to ensure accuracy and relevance.
