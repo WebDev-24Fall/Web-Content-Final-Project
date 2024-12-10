@@ -1,4 +1,4 @@
-# Web Content Management Systems
+# README
 
 PROG8761 - Fall 2024 - Section 6
 
