@@ -1,0 +1,166 @@
+/*abdul */
+
+/* General body styling */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 20px;
+    background-color: #F5F7FA;  /* Light gray background */
+    color: #333;  /* Dark gray text for better contrast */
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 40px;
+    font-size: 30px;
+    color: #4A90E2;  /* Soft blue header */
+    font-weight: 600;
+}
+
+/* Card container styling */
+.card-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Individual card styling */
+.card {
+    background-color: #ffffff;  /* White card background */
+    border: 1px solid #e0e0e0;  /* Light gray border */
+    border-radius: 10px;
+    padding: 25px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);  /* Subtle shadow */
+    text-align: center;
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+.card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+}
+
+.card h3 {
+    font-size: 22px;
+    color: #4A90E2;  /* Soft blue for card titles */
+    margin-bottom: 15px;
+    font-weight: 500;
+}
+
+.card p {
+    font-size: 16px;
+    color: #777;  /* Medium gray for paragraph text */
+    margin-bottom: 25px;
+}
+
+.card button {
+    padding: 12px 25px;
+    font-size: 16px;
+    color: #fff;
+    background-color: #4A90E2;  /* Soft blue button */
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.card button:hover {
+    background-color: #0061CC;  /* Darker blue on hover */
+}
+
+/* Tooltip styling for pie chart */
+.tooltip-pie {
+    position: absolute;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    padding: 8px 15px;
+    font-size: 14px;
+    border-radius: 6px;
+    pointer-events: none;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: opacity 0.2s ease-in-out;
+}
+
+/* Tooltip styling for scatter plot */
+.tooltip {
+    position: absolute;
+    background-color: white;
+    border: 1px solid #ccc;
+    padding: 8px 15px;
+    font-size: 14px;
+    border-radius: 6px;
+    pointer-events: none;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: opacity 0.2s ease-in-out;
+}
+
+/* Pie chart slices */
+path {
+    transition: transform 0.2s ease, stroke-width 0.2s ease;
+}
+
+path:hover {
+    transform: scale(1.05);
+    cursor: pointer;
+}
+
+/* Legend styling */
+.legend {
+    max-width: 90%;
+    margin: 30px auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 20px;
+}
+
+.legend div {
+    display: flex;
+    align-items: center;
+}
+
+.legend div div {
+    width: 18px;
+    height: 18px;
+    margin-right: 12px;
+    border-radius: 4px;
+}
+
+.legend div span {
+    font-size: 16px;
+    color: #333;
+    font-weight: 500;
+}
+
+/* Responsive adjustments */
+@media screen and (max-width: 768px) {
+    h2 {
+        font-size: 26px;
+    }
+
+    .card-container {
+        grid-template-columns: 1fr;
+    }
+
+    .card {
+        margin-bottom: 30px;
+    }
+
+    .legend {
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    }
+
+    .legend div {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .legend div div {
+        margin-bottom: 5px;
+    }
+
+    .legend div span {
+        font-size: 14px;
+    }
+}

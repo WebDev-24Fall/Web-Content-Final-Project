@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Male Population Estimates (Line Chart)</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script> <!-- D3.js CDN -->
+    <style>
+        .line {
+            fill: none;
+            stroke-width: 2;
+        }
+        .axis-label {
+            font-size: 14px;
+        }
+        .axis path,
+        .axis line {
+            fill: none;
+            shape-rendering: crispEdges;
+        }
+    </style>
+</head>
+<body>
+    <h1>Male Population Estimates by Region (Line Chart)</h1>
+    <svg width="800" height="500" id="line-chart"></svg>
+
+    <script src="../js/danish_line_chart.js"></script> <!-- Path to JS file -->
+</body>
+</html>
