@@ -13,21 +13,33 @@
       padding: 0;
       background-color: #f4f4f4;
     }
-  
-    #content {
+
+    #content,
+    .content {
       background: #fff;
       padding: 20px;
       border-radius: 5px;
       box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
-  
+
+    .charts-content ul {
+      list-style: none;
+      padding: 0;
+      display: flex;
+      gap: 1rem;
+    }
+
+    .charts-content ul>li {
+      width: 25%;
+    }
+
     pre {
       background: #eee;
       padding: 10px;
       border-radius: 5px;
       overflow-x: auto;
     }
-  
+
     code {
       font-family: "Courier New", Courier, monospace;
       color: #d63384;
@@ -36,6 +48,40 @@
 </head>
 
 <body>
+  <h1>Web Content Management Systems</h1>
+  <div class="charts-content">
+    <ul class="charts-ul">
+      <li class="content">
+        <h2>Population Aged 60+ Years Old (Percentage)</h2>
+        <h3>Abdul Mannan, Mohammed</h3>
+        <a href="./Abdul/" rel="noopener noreferrer">
+          Explore
+        </a>
+      </li>
+      <li class="content">
+        <h2>Population mid-year estimates</h2>
+        <h3>Gu, Yunxiang</h3>
+        <a href="./yunxiang/" rel="noopener noreferrer">
+          Explore
+        </a>
+      </li>
+      <li class="content">
+        <h2>Population Aged 0 to 14 Years Old (Percentage)</h2>
+        <h3>Macwan, Sarah Advin</h3>
+        <a href="./sarah/" rel="noopener noreferrer">
+          Explore
+        </a>
+      </li>
+      <li class="content">
+        <h2>Male Population Estimates</h2>
+        <h3>Shaikh, Daneesh Bashir</h3>
+        <a href="./danish/" rel="noopener noreferrer">
+          Explore
+        </a>
+      </li>
+    </ul>
+  </div>
+  <br>
   <div id="content">Loading</div>
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   <script>
