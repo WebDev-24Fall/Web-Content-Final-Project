@@ -6,10 +6,10 @@ PROG8761 - Fall 2024 - Section 6
 
 ### Students
 
-- Abdul Mannan, Mohammed
+- [Abdul Mannan, Mohammed](./Abdul/)
 - [Gu, Yunxiang](./yunxiang/)
 - [Macwan, Sarah Advin](./sarah/)
-- Shaikh, Daneesh Bashir
+- [Shaikh, Daneesh Bashir](./danish/)
 
 ### Data Source
 
