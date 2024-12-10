@@ -4,7 +4,7 @@ PROG8761 - Fall 2024 - Section 6
 
 ## Final Project
 
-### Students
+### Students' Charts
 
 - [Abdul Mannan, Mohammed](./Abdul/)
 - [Gu, Yunxiang](./yunxiang/)
